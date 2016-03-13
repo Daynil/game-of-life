@@ -1,5 +1,5 @@
 {
-  "name": "react-ts-scss-blank",
+  "name": "game-of-life",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "typescript": "^1.7.5"
+    "react-dom": "^0.14.6"
   },
   "devDependencies": {
     "css-loader": "^0.23.1",

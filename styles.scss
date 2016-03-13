@@ -1,3 +1,29 @@
-body {
-	color: red;
+#page-wrapper {
+	text-align: center;
+	font-family: 'Raleway';
+	h1 {
+		margin: 10px;
+		font-size: 40px;
+		font-weight: 300;
+	}
+	table {
+		margin: 0 auto;
+		margin-top: 60px;
+		border-spacing: 0;
+		border-collapse: collapse;
+		td {
+			padding: 0;
+			border: 1px solid hsla(210, 10%, 60%, 0.3);
+			width: 10px;
+			height: 10px;
+		}
+	}
+}
+
+.alive {
+	background-color: hsl(120, 100%, 25%);
+}
+
+.young {
+	background-color: hsl(120, 100%, 45%);
 }
