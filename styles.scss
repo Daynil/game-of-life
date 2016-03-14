@@ -1,16 +1,28 @@
+$color-dark: hsl(225, 10%, 24%);
+$color-brown: hsl(29, 49%, 15%);
+$color-green: hsl(90, 83%, 16%);
+$color-green-light: hsl(88, 47%, 35%);
+$color-tan: hsl(43, 38%, 75%);
+
 #page-wrapper {
 	text-align: center;
 	font-family: 'Raleway';
+	color: $color-dark;
 	h1 {
 		margin: 10px;
 		font-size: 40px;
 		font-weight: 300;
+		#highlight {
+			color: $color-green-light;
+		}
 	}
 	table {
+		display: inline-block;
 		margin: 0 auto;
 		margin-top: 60px;
 		border-spacing: 0;
 		border-collapse: collapse;
+		box-shadow: 0px 0px 30px hsl(0, 0%, 0%);
 		td {
 			padding: 0;
 			border: 1px solid hsla(210, 10%, 60%, 0.3);
@@ -18,12 +30,34 @@
 			height: 10px;
 		}
 	}
+	#controls {
+		display: inline-block;
+		position: relative;
+		vertical-align: top;
+		top: 60px;
+		left: 20px;
+		span {
+			display: block;
+			margin-bottom: 10px;
+		}
+	}
+}
+
+.button {
+	border: 2px solid $color-green-light;
+	color: black;
+	padding: 10px;
+	&:hover {
+		cursor: pointer;
+		color: aliceblue;
+		background-color: $color-green-light;
+	}
 }
 
 .alive {
-	background-color: hsl(120, 100%, 25%);
+	background-color: $color-green;
 }
 
 .young {
-	background-color: hsl(120, 100%, 45%);
+	background-color: $color-green-light;
 }

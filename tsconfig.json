@@ -11,7 +11,6 @@
 		"jsx": "react"
 	},
 	"exclude": [
-		"node_modules",
-		"typings"
+		"node_modules"
 	]
 }

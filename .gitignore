@@ -1,5 +1,6 @@
 # Don't add dependencies
 node_modules
+typings
 
 # Don't add source maps
 *.*.map

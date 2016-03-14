@@ -17,7 +17,7 @@ module.exports = {
 		loaders: [				// What to do with code passed in (starting at main.tsx)
 		
 			{
-				test: /\.ts(x?)$/,             // Don't process anything in modules
+				test: /\.ts(x?)$/,
 				loader: 'ts-loader'
 			},
 			
