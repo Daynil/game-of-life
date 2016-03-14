@@ -16,10 +16,13 @@ $color-tan: hsl(43, 38%, 75%);
 			color: $color-green-light;
 		}
 	}
+	h4 {
+		font-weight: 300;
+	}
 	table {
 		display: inline-block;
 		margin: 0 auto;
-		margin-top: 60px;
+		margin-top: 10px;
 		border-spacing: 0;
 		border-collapse: collapse;
 		box-shadow: 0px 0px 30px hsl(0, 0%, 0%);
@@ -34,7 +37,7 @@ $color-tan: hsl(43, 38%, 75%);
 		display: inline-block;
 		position: relative;
 		vertical-align: top;
-		top: 60px;
+		top: 10px;
 		left: 20px;
 		span {
 			display: block;

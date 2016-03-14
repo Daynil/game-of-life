@@ -26,7 +26,7 @@ class App extends React.Component<any, any> {
 	}
 	
 	clearBoard() {
-		this.game.initBoard({cols: 70, rows: 50});
+		this.game.clear();
 		this.refreshState();
 	}
 	
@@ -34,6 +34,7 @@ class App extends React.Component<any, any> {
 		return (
 			<div id="page-wrapper">
 				<h1>ReactJS - Game of <span id="highlight">Life</span></h1>
+				<h4>Current Generation: {this.state.gameState.currentGeneration}</h4>
 				<GameBoard
 					columns={70}
 					rows={50}
@@ -41,7 +42,8 @@ class App extends React.Component<any, any> {
 					handleCellClick={(e, coords) => this.handleCellClick(e, coords)} />
 				<div id="controls">
 					<span className="button" onClick={(e) => this.game.run()}>Run</span>
-					<span className="button">Pause</span>
+					<span className="button" onClick={(e) => this.game.step()}>Step</span>
+					<span className="button" onClick={(e) => this.game.pause()}>Pause</span>
 					<span className="button" onClick={(e) => this.clearBoard()}>Clear</span>
 				</div>
 			</div>
@@ -102,6 +104,8 @@ class Game {
 	refreshState;
 	
 	gameState = {
+		isActive: false,
+		currentGeneration: 0,
 		board: []
 	}
 	
@@ -134,30 +138,63 @@ class Game {
 		console.log(board, board.length);
 	}
 	
+	pause() {
+		this.gameState.isActive = false;
+	}
+	
+	clear() {
+		this.gameState.isActive = false;
+		this.gameState.currentGeneration = 0;
+		this.initBoard({cols: 70, rows: 50});
+	}
+	
 	run() {
-		let board = this.gameState.board;
-		for (let row = 0; row < board.length; row++) {
-			for (let col = 0; col < board[row].length; col++) {
+		this.gameState.isActive = true;
+		requestAnimationFrame(this.nextGeneration.bind(this));
+	}
+	
+	step() {
+		if (!this.gameState.isActive) this.nextGeneration(true);
+	}
+	
+	nextGeneration(stepping?: boolean) {
+		if (!this.gameState.isActive) {
+			if (stepping == null || stepping == false) return;
+		}
+		let originalBoard = this.gameState.board;
+		//let nextBoard = JSON.parse(JSON.stringify(this.gameState.board));
+		let nextBoard = this.gameState.board.map(row => row.slice());
+		for (let row = 0; row < originalBoard.length; row++) {
+			for (let col = 0; col < originalBoard[row].length; col++) {
 				let currentCell: BoardCoords = {row: row, col: col};
-				let currentCellState = board[row][col];
+				let currentCellState = originalBoard[row][col];
 				let livingNeighbors: number = this.findCellNeighbors(currentCell);
 				
 				// Living cells
 				if (currentCellState > 0) {
-					if (livingNeighbors < 2) board[row][col] = 0;  // Cell dies
-					if (livingNeighbors == 2 || livingNeighbors == 3) { // Cell survives
-						if (currentCellState == 1) board[row][col] += 1;  // Cell ages
+					if (livingNeighbors < 2) nextBoard[row][col] = 0;  // Cell dies
+					else if (livingNeighbors == 2 || livingNeighbors == 3) { // Cell survives
+						if (currentCellState == 1) nextBoard[row][col] += 1;  // Cell ages
 					}
-					if (livingNeighbors > 3) board[row][col] = 0; // Cell dies
+					else if (livingNeighbors > 3) nextBoard[row][col] = 0; // Cell dies
 				}
 				// Dead cells
 				else {
-					if (livingNeighbors == 3) board[row][col] = 1; // Cell comes to life
+					if (livingNeighbors == 3) nextBoard[row][col] = 1; // Cell comes to life
 				}
 			}
 		}
+		if (!this.gameState.isActive) {
+			if (stepping != null && stepping == true) {
+				this.gameState.board = nextBoard;
+				this.gameState.currentGeneration++;
+			}
+		} else {
+			this.gameState.board = nextBoard;
+			this.gameState.currentGeneration++;
+		}
 		this.refreshState();
-		//this.run();
+		if (this.gameState.isActive) requestAnimationFrame(this.nextGeneration.bind(this));
 	}
 	
 	findCellNeighbors(cell: BoardCoords): number {
