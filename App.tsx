@@ -13,7 +13,6 @@ class App extends React.Component<any, any> {
 	}
 	
 	handleCellClick(e, coords: BoardCoords) {
-		console.log('clicked coords:', coords);
 		let clickedCell = this.state.gameState.board[coords.row][coords.col];
 		if (clickedCell == 0) this.state.gameState.board[coords.row][coords.col] += 1;
 		else if (clickedCell == 1) this.state.gameState.board[coords.row][coords.col] -= 1;
@@ -46,6 +45,7 @@ class App extends React.Component<any, any> {
 					<span className="button" onClick={(e) => this.game.pause()}>Pause</span>
 					<span className="button" onClick={(e) => this.clearBoard()}>Clear</span>
 				</div>
+				<Foot />
 			</div>
 		)
 	}
@@ -111,7 +111,7 @@ class Game {
 	
 	constructor(refreshState, colsRows: {cols: number, rows: number}) {
 		this.refreshState = refreshState;
-		this.initBoard(colsRows);
+		this.initBoard(colsRows, 'random');
 	}
 	
 	initBoard(colsRows: {cols: number, rows: number}, starter?) {
@@ -135,7 +135,7 @@ class Game {
 			board.push(nextRow);
 		}
 		this.gameState.board = board;
-		console.log(board, board.length);
+		if (starter != null) this.run(); 
 	}
 	
 	pause() {
@@ -203,7 +203,7 @@ class Game {
 		let boardCols = board[0].length;
 		let numLivingNeighbors = 0;
 		
-		// Check state of each cell starting at top left of current cell
+		// Check state of each adjacent cell starting at top left of current cell
 		for (let row = cell.row-1; row <= cell.row+1; row++) {
 			let rowToCheck = row;
 			if (row < 0) rowToCheck = boardRows-1;
@@ -222,6 +222,22 @@ class Game {
 		return numLivingNeighbors;
 	}
 	
+}
+
+class Foot extends React.Component<any, any> {
+	render() {
+		return (
+			<div id="foot">
+				<div id="foot-text">
+					Created by <a href="https://github.com/Daynil/">Daynil</a> for <a href="http://www.freecodecamp.com/">FCC</a>
+					<br/><a id="gh-link" href="https://github.com/Daynil/game-of-life">
+					<i className="fa fa-github-square fa-lg"></i>
+					Github repo
+					</a>
+				</div>
+			</div>
+		);
+	}
 }
 
 interface BoardCoords {
